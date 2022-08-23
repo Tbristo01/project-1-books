@@ -1,3 +1,4 @@
+from ast import Str
 from enum import Enum
 from typing import Optional
 from fastapi import FastAPI
@@ -67,3 +68,15 @@ async def create_book(book_title, book_author):
     BOOKS[f'books_{current_book_id+1}'] = {'title': book_title,
                                            'author': book_author}
     return BOOKS[f'book_{current_book_id+1}']
+
+@app.put("/{book_name}")
+async def update_book(book_name:str,book_title:str,book_author:str):
+    book_information ={'title':book_title,'author':book_author}
+    BOOKS[book_name]=book_information
+    return book_information
+
+
+@app.delete("/{book_name}")
+async def delete_book(book_name):
+    del BOOKS[book_name]
+    return f'Book {book_name} deleted'
